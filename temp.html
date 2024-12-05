@@ -1,0 +1,68 @@
+<div style="width: 100%; height: 100vh; overflow: hidden;">
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Animation</title>
+    <style>
+        body {
+            margin: 0;
+            height: 200vh; /* Making the page scrollable */
+            background: linear-gradient(to bottom, #a8edea, #fed6e3);
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .falling-image {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px; /* Increased size */
+            pointer-events: none;
+            transition: transform 1.6s ease, top 1.6s ease; /* Slower animation */
+        }
+
+        @keyframes turbulence {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-48%) rotate(-3deg); }
+            50% { transform: translateX(-52%) rotate(3deg); }
+            75% { transform: translateX(-49%) rotate(-2deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <img 
+        src="https://purepng.com/public/uploads/large/purepng.com-red-leafautumnleavesleafmapleseasonfall-541521068297fhnvb.png" 
+        alt="Falling Image" 
+        class="falling-image" 
+        id="fallingImage">
+
+    <script>
+        const image = document.getElementById('fallingImage');
+
+        // Listen for the scroll event
+        window.addEventListener('scroll', () => {
+            // Calculate the scroll position relative to the page
+            const scrollPos = window.scrollY;
+            const scrollHeight = document.body.scrollHeight - window.innerHeight;
+
+            // Normalize scroll position to a percentage (0 to 1)
+            const scrollPercentage = scrollPos / scrollHeight;
+
+            // Set the image's position based on the scroll percentage
+            image.style.top = `${scrollPercentage * 100}vh`;
+
+            // Add a much more pronounced zig-zag swaying effect
+            const swayX = Math.sin(scrollPercentage * 20) * 500; // 10x larger amplitude for X-axis
+            const swayY = Math.cos(scrollPercentage * 25) * 300; // 10x larger amplitude for Y-axis
+            image.style.transform = `translate(${swayX}px, ${swayY}px)`;
+        });
+    </script>
+</body>
+</html>
+
+</div>
